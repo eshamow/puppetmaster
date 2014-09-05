@@ -48,9 +48,9 @@ class puppetmaster( $master = undef ) {
   }
   file { '/etc/puppet/manifests/site.pp':
     ensure => file,
-    content => template('puppetmaster/site.pp')
+    content => template('puppetmaster/site.pp.erb'),
     owner   => 'puppet',
-    owner   => 'puppet',
+    group   => 'puppet',
     mode    => '0740',
   }
   package { 'ruby-devel':
