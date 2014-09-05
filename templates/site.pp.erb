@@ -1,7 +1,17 @@
 Package { allow_virtual => false }
+resources { "firewall":
+  purge => true
+}
 
 node '<%= @master %>' {
+  Firewall {
+    before  => Class['puppetmaster::firewall::post'],
+    require => Class['puppetmaster::firewall::pre'],
+  }
   class { 'puppetmaster':
     master => '<%= @master %>'
   }
+  class { 'puppetmaster::firewall': }
+  class { ['puppetmaster::firewall::pre', 'puppetmaster::firewall::post']: }
+  class { 'firewall': }
 }

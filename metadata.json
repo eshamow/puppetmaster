@@ -1,6 +1,6 @@
 {
   "name": "eshamow/puppetmaster",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "author": "eshamow",
   "summary": "Install a full puppet master, passenger, apache stack",
   "license": "Apache 2.0",
@@ -10,7 +10,8 @@
   "dependencies": [
     {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"},
     {"name":"puppetlabs-gcc","version_requirement":">= 0.2.0"},
-    {"name":"puppetlabs-passenger","version_requirement":">= 0.3.0"}
+    {"name":"puppetlabs-passenger","version_requirement":">= 0.3.0"},
+    {"name":"puppetlabs-firewall","version_requirement":">= 1.1.3"}
   ]
 }
 
