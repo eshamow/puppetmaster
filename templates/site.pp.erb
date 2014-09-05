@@ -1,0 +1,7 @@
+Package { allow_virtual => false }
+
+node '<%= @master %>' {
+  class { 'puppetmaster':
+    master => '<%= @master %>'
+  }
+}
