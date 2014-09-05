@@ -11,6 +11,7 @@ node '<%= @master %>' {
   class { 'puppetmaster':
     master => '<%= @master %>'
   }
+  class { 'epel': }
   class { 'puppetdb': }
   class { 'puppetdb::master::config':
     puppet_service_name => 'httpd',
@@ -18,4 +19,8 @@ node '<%= @master %>' {
   class { 'puppetmaster::firewall': }
   class { ['puppetmaster::firewall::pre', 'puppetmaster::firewall::post']: }
   class { 'firewall': }
+}
+
+node default {
+  hiera_include('node::classes')
 }
