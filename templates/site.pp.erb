@@ -11,6 +11,10 @@ node '<%= @master %>' {
   class { 'puppetmaster':
     master => '<%= @master %>'
   }
+  class { 'puppetdb': }
+  class { 'puppetdb::master::config':
+    puppet_service_name => 'httpd',
+  }
   class { 'puppetmaster::firewall': }
   class { ['puppetmaster::firewall::pre', 'puppetmaster::firewall::post']: }
   class { 'firewall': }
