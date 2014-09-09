@@ -35,11 +35,10 @@
 #
 # Copyright 2014 Your name here, unless otherwise noted.
 #
-class puppetmaster( $master = undef ) {
-  if $master == undef {
-    fail('$master must be defined for class puppetmaster.')
+class puppetmaster($master = undef, $control_repo = undef) {
+  if ($master == undef) or ($control_repo == undef) {
+    fail('$master and $control_repo must be defined for class puppetmaster.')
   }
-
   Package { allow_virtual => false }
 
   user { 'puppet':
@@ -53,14 +52,11 @@ class puppetmaster( $master = undef ) {
     group   => 'puppet',
     mode    => '0740',
   }
-  package { 'ruby-devel':
-    ensure => installed,
-  } ->
-  package { 'rubygems':
-    ensure => installed,
-  } ->
   class { 'apache': } ->
   class { 'gcc': } ->
+  class { 'ruby': }
+  class { 'ruby::dev':
+  } ->
   class { 'passenger': }
 
   file { ['/usr/share/puppet/rack',
