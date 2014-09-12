@@ -57,7 +57,10 @@ class puppetmaster($master = undef, $control_repo = undef) {
   class { 'ruby': }
   class { 'ruby::dev':
   } ->
-  class { 'passenger': }
+  class { 'passenger':
+    passenger_version => '4.0.50',
+    package_ensure => '4.0.50',
+  }
 
   file { ['/usr/share/puppet/rack',
           '/usr/share/puppet/rack/puppetmasterd',

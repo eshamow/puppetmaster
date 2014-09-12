@@ -9,7 +9,8 @@ node '<%= @master %>' {
     require => Class['puppetmaster::firewall::pre'],
   }
   class { 'puppetmaster':
-    master => '<%= @master %>'
+    master       => '<%= @master %>'
+    control_repo => '<%= @control_repo %>'
   }
   class { 'epel': }
   class { 'puppetdb': }
