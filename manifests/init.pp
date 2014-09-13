@@ -36,9 +36,11 @@
 # Copyright 2014 Your name here, unless otherwise noted.
 #
 class puppetmaster(
-  $master          = undef,
-  $control_repo    = undef,
-  $manage_firewall = false
+  $master           = undef,
+  $control_repo     = undef,
+  $manage_web_stack = true,
+  $manage_firewall  = true,
+  $hiera_erb        = true
 ) {
   if ($master == undef) or ($control_repo == undef) {
     fail('$master and $control_repo must be defined for class puppetmaster.')
@@ -70,6 +72,9 @@ class puppetmaster(
     owner  => 'puppet',
     group  => 'puppet',
     mode   => '0740',
+  }
+  if $manage_web_stack {
+    contain profile_passenger
   }
   apache::vhost { $master:
     port                 => '8140',

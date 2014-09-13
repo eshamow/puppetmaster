@@ -1,6 +1,7 @@
 Package { allow_virtual => false }
 
 node '<%= @master %>' {
+  <% if @manage_firewall -%>
   Firewall {
     before  => Class['puppetmaster::firewall::post'],
     require => Class['puppetmaster::firewall::pre'],
@@ -8,6 +9,12 @@ node '<%= @master %>' {
   resources { "firewall":
     purge => true
   }
+  class { ['puppetmaster::firewall::pre', 'puppetmaster::firewall::post']: }
+  class { 'puppetmaster::firewall':
+    before => Service['iptables'],
+  }
+  class { 'firewall': }
+  <% end -%>
   class { 'puppetmaster':
     master       => '<%= @master %>',
     control_repo => '<%= @control_repo %>'
@@ -21,13 +28,10 @@ node '<%= @master %>' {
     puppet_service_name => 'httpd',
     puppetdb_server     => '<%= @master %>',
   }
-  class { ['puppetmaster::firewall::pre', 'puppetmaster::firewall::post']: }
-  class { 'puppetmaster::firewall':
-    before => Service['iptables'],
-  }
-  class { 'firewall': }
 }
 
+<% if @hiera_erb -%>
 node default {
   hiera_include('node::classes')
 }
+<% end -%>
