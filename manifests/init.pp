@@ -35,33 +35,25 @@
 #
 # Copyright 2014 Your name here, unless otherwise noted.
 #
-class puppetmaster($master = undef, $control_repo = undef) {
+class puppetmaster(
+  $master          = undef,
+  $control_repo    = undef,
+  $manage_firewall = false
+) {
   if ($master == undef) or ($control_repo == undef) {
     fail('$master and $control_repo must be defined for class puppetmaster.')
   }
-  Package { allow_virtual => false }
-
   user { 'puppet':
     ensure => present,
     groups => ['apache','puppet'],
   }
   file { '/etc/puppet/manifests/site.pp':
-    ensure => file,
+    ensure  => file,
     content => template('puppetmaster/site.pp.erb'),
     owner   => 'puppet',
     group   => 'puppet',
     mode    => '0740',
   }
-  class { 'apache': } ->
-  class { 'gcc': } ->
-  class { 'ruby': }
-  class { 'ruby::dev':
-  } ->
-  class { 'passenger':
-    passenger_version => '4.0.50',
-    package_ensure => '4.0.50',
-  }
-
   file { ['/usr/share/puppet/rack',
           '/usr/share/puppet/rack/puppetmasterd',
           '/usr/share/puppet/rack/puppetmasterd/public',
@@ -71,9 +63,7 @@ class puppetmaster($master = undef, $control_repo = undef) {
     group   => 'apache',
     mode    => '0740',
     recurse => true,
-    require => Class['passenger'],
   }
-
   file { '/usr/share/puppet/rack/puppetmasterd/config.ru':
     ensure => file,
     source => '/usr/share/puppet/ext/rack/config.ru',
@@ -81,32 +71,32 @@ class puppetmaster($master = undef, $control_repo = undef) {
     group  => 'puppet',
     mode   => '0740',
   }
-  apache::vhost { "${master}":
-    port => '8140',
-    ssl  => true,
-    ssl_protocol => 'ALL -SSLv2 -SSLv3',
-    ssl_cipher   => 'EDH+CAMELLIA:EDH+aRSA:EECDH+aRSA+AESGCM:EECDH+aRSA+SHA384:EECDH+aRSA+SHA256:EECDH:+CAMELLIA256:+AES256:+CAMELLIA128:+AES128:+SSLv3:!aNULL:!eNULL:!LOW:!3DES:!MD5:!EXP:!PSK:!DSS:!RC4:!SEED:!IDEA:!ECDSA:kEDH:CAMELLIA256-SHA:AES256-SHA:CAMELLIA128-SHA:AES128-SHA',
+  apache::vhost { $master:
+    port                 => '8140',
+    ssl                  => true,
+    ssl_protocol         => 'ALL -SSLv2 -SSLv3',
+    ssl_cipher           => 'EDH+CAMELLIA:EDH+aRSA:EECDH+aRSA+AESGCM:EECDH+aRSA+SHA384:EECDH+aRSA+SHA256:EECDH:+CAMELLIA256:+AES256:+CAMELLIA128:+AES128:+SSLv3:!aNULL:!eNULL:!LOW:!3DES:!MD5:!EXP:!PSK:!DSS:!RC4:!SEED:!IDEA:!ECDSA:kEDH:CAMELLIA256-SHA:AES256-SHA:CAMELLIA128-SHA:AES128-SHA',
     ssl_honorcipherorder => 'on',
-    ssl_cert => "/var/lib/puppet/ssl/certs/${master}.pem",
-    ssl_key  => "/var/lib/puppet/ssl/private_keys/${master}.pem",
-    ssl_chain => '/var/lib/puppet/ssl/ca/ca_crt.pem',
-    ssl_ca    => '/var/lib/puppet/ssl/ca/ca_crt.pem',
-    ssl_crl => '/var/lib/puppet/ssl/ca/ca_crl.pem',
-    ssl_verify_client => 'optional',
-    ssl_verify_depth  => '1',
-    ssl_options => ['+StdEnvVars', '+ExportCertData'],
-    request_headers => [
+    ssl_cert             => "/var/lib/puppet/ssl/certs/${master}.pem",
+    ssl_key              => "/var/lib/puppet/ssl/private_keys/${master}.pem",
+    ssl_chain            => '/var/lib/puppet/ssl/ca/ca_crt.pem',
+    ssl_ca               => '/var/lib/puppet/ssl/ca/ca_crt.pem',
+    ssl_crl              => '/var/lib/puppet/ssl/ca/ca_crl.pem',
+    ssl_verify_client    => 'optional',
+    ssl_verify_depth     => '1',
+    ssl_options          => ['+StdEnvVars', '+ExportCertData'],
+    request_headers      => [
       'set X-SSL-Subject %{SSL_CLIENT_S_DN}e',
       'set X-Client-DN %{SSL_CLIENT_S_DN}e',
       'set X-Client-Verify %{SSL_CLIENT_VERIFY}e',
     ],
-    docroot  => '/usr/share/puppet/rack/puppetmasterd/public',
-    directories => [
-      { path => '/usr/share/puppet/rack/puppetmasterd/',
-        'Options' => 'None',
+    docroot              => '/usr/share/puppet/rack/puppetmasterd/public',
+    directories          => [
+      { path            => '/usr/share/puppet/rack/puppetmasterd/',
+        'Options'       => 'None',
         'AllowOverride' => 'None',
-        'Order' => 'allow,deny',
-        'Allow' => 'from all',
+        'Order'         => 'allow,deny',
+        'Allow'         => 'from all',
       },
     ],
   }
