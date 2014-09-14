@@ -1,0 +1,12 @@
+# /etc/hiera.yaml
+#
+---
+:backends:
+  - yaml
+:hierarchy:
+  - "%{clientcert}"
+  - "%{application_tier}"
+  - common
+
+:yaml:
+  :datadir: "/etc/puppet/environments/%{environment}/hieradata"

@@ -1,11 +1,7 @@
 Package { allow_virtual => false }
 
 node '<%= @master %>' {
-  class { 'puppetmaster::profile':
-    master => '<%= @master %>',
-    control_repo => '<%= @control_repo %>',
-    manage_firewall => '<%= @manage_firewall %>',
-  }
+class { 'puppetmaster::role::single': }
 }
 
 <% if @hiera_erb -%>

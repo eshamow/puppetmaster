@@ -1,8 +1,11 @@
 class puppetmaster::profile(
-  $master,
-  $control_repo,
-  $manage_firewall,
+  $master          = undef,
+  $control_repo    = undef,
+  $manage_firewall = true,
 ) {
+  if ($master == undef) or ($control_repo == undef) {
+    fail('$master and $control_repo must be defined for profile puppetmaster.')
+  }
   if $manage_firewall {
     Firewall {
       before  => Class['puppetmaster::firewall::post'],
