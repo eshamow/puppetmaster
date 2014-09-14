@@ -38,6 +38,8 @@
 class puppetmaster(
   $master           = undef,
   $control_repo     = undef,
+  $certname         = $master,
+  $dns_alt_names    = $master,
   $manage_web_stack = true,
   $manage_firewall  = true,
   $hiera_erb        = true
@@ -56,6 +58,16 @@ class puppetmaster(
     group   => 'puppet',
     mode    => '0740',
   }
+  file { ['/etc/puppet/environments',
+          '/etc/puppet/environments/production',
+          '/etc/puppet/environments/production/modules',
+          '/etc/puppet/environments/production/hieradata']:
+    ensure  => directory,
+    owner   => 'puppet',
+    group   => 'apache',
+    mode    => '0740',
+    recurse => true,
+  }
   file { ['/usr/share/puppet/rack',
           '/usr/share/puppet/rack/puppetmasterd',
           '/usr/share/puppet/rack/puppetmasterd/public',
@@ -72,6 +84,32 @@ class puppetmaster(
     owner  => 'puppet',
     group  => 'puppet',
     mode   => '0740',
+  }
+
+  Ini_setting {
+    ensure  => present,
+    path    => '/etc/puppet/puppet.conf',
+    section => 'main',
+  }
+  ini_setting { 'puppetmaster':
+    setting => 'server',
+    value   => $master,
+  }
+  ini_setting { 'certname':
+    setting => 'certname',
+    value   => $certname,
+  }
+  ini_setting { 'dns_alt_names':
+    setting => 'dns_alt_names',
+    value   => $dns_alt_names,
+  }
+  ini_setting { 'directory_environment_path':
+    setting => 'environmentpath',
+    value   => '$confdir/environments',
+  }
+  ini_setting { 'directory_environment_manifests':
+    setting => 'default_manifest',
+    value   => '$confdir/manifests',
   }
   if $manage_web_stack {
     contain profile_passenger
