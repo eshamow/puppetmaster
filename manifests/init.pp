@@ -58,6 +58,13 @@ class puppetmaster(
     group   => 'puppet',
     mode    => '0740',
   }
+  file { '/etc/puppet/hiera.yaml':
+    ensure  => file,
+    content => template('puppetmaster/hiera.yaml.erb'),
+    owner   => 'puppet',
+    group   => 'puppet',
+    mode    => '0740',
+  }
   file { ['/etc/puppet/environments',
           '/etc/puppet/environments/production',
           '/etc/puppet/environments/production/modules',
@@ -67,6 +74,14 @@ class puppetmaster(
     group   => 'apache',
     mode    => '0740',
     recurse => true,
+  }
+  file { 'master_hiera':
+    ensure  => file,
+    path    => "/etc/puppet/environments/production/hieradata/${certname}.yaml",
+    content => template('puppetmaster/master.yaml.erb'),
+    owner   => 'puppet',
+    group   => 'apache',
+    mode    => '0740',
   }
   file { ['/usr/share/puppet/rack',
           '/usr/share/puppet/rack/puppetmasterd',
@@ -102,6 +117,10 @@ class puppetmaster(
   ini_setting { 'dns_alt_names':
     setting => 'dns_alt_names',
     value   => $dns_alt_names,
+  }
+  ini_setting { 'confdir':
+    setting => 'confdir',
+    value   => '/etc/puppet',
   }
   ini_setting { 'directory_environment_path':
     setting => 'environmentpath',

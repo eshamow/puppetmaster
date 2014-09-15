@@ -1,7 +1,8 @@
 Package { allow_virtual => false }
 
 node '<%= @master %>' {
-class { 'puppetmaster::role::single': }
+  $environment = 'production'
+  class { 'puppetmaster::role::single': }
 }
 
 <% if @hiera_erb -%>

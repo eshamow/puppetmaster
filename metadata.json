@@ -1,6 +1,6 @@
 {
   "name": "eshamow/puppetmaster",
-  "version": "0.1.10",
+  "version": "0.2.0",
   "author": "eshamow",
   "summary": "Install a full puppet master, puppetdb, passenger, apache stack",
   "license": "Apache 2.0",
