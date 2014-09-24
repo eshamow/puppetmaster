@@ -177,4 +177,9 @@ class puppetmaster(
     manage_modulepath      => false,
     manage_ruby_dependency => ignore,
   }
+  vcsrepo { '/etc/puppet/control':
+    ensure   => present,
+    provider => git,
+    source   => $control_repo,
+  }
 }
