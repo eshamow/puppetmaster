@@ -35,16 +35,17 @@ class puppetmaster::profile(
     puppetdb_server     => $master,
   }
   class { 'r10k':
-    version           => $r10k_version,
-    sources           => {
+    version                => $r10k_version,
+    sources                => {
       'puppet' => {
         'remote'  => $control_repo,
         'basedir' => "${::settings::confdir}/environments",
         'prefix'  => false,
       }
     },
-    purgedirs         => ["${::settings::confdir}/environments"],
-    install_options   => '--debug',
-    manage_modulepath => false,
+    purgedirs              => ["${::settings::confdir}/environments"],
+    install_options        => '--debug',
+    manage_modulepath      => false,
+    manage_ruby_dependency => ignore,
   }
 }
