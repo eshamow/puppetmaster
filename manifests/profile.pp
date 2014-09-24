@@ -2,7 +2,6 @@ class puppetmaster::profile(
   $master          = undef,
   $control_repo    = undef,
   $manage_firewall = true,
-  $r10k_version    = 'installed'
 ) {
   if ($master == undef) or ($control_repo == undef) {
     fail('$master and $control_repo must be defined for profile puppetmaster.')
@@ -33,19 +32,5 @@ class puppetmaster::profile(
   class { 'puppetdb::master::config':
     puppet_service_name => 'httpd',
     puppetdb_server     => $master,
-  }
-  class { 'r10k':
-    version                => $r10k_version,
-    sources                => {
-      'puppet' => {
-        'remote'  => $control_repo,
-        'basedir' => "${::settings::confdir}/environments",
-        'prefix'  => false,
-      }
-    },
-    purgedirs              => ["${::settings::confdir}/environments"],
-    install_options        => '--debug',
-    manage_modulepath      => false,
-    manage_ruby_dependency => ignore,
   }
 }

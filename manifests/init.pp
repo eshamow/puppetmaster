@@ -43,6 +43,7 @@ class puppetmaster(
   $manage_web_stack = true,
   $manage_firewall  = true,
   $hiera_erb        = true
+  $r10k_version     = 'installed',
 ) {
   if ($master == undef) or ($control_repo == undef) {
     fail('$master and $control_repo must be defined for class puppetmaster.')
@@ -65,16 +66,16 @@ class puppetmaster(
     group   => 'puppet',
     mode    => '0740',
   }
-  file { ['/etc/puppet/environments',
-          '/etc/puppet/environments/production',
-          '/etc/puppet/environments/production/modules',
-          '/etc/puppet/environments/production/hieradata']:
-    ensure  => directory,
-    owner   => 'puppet',
-    group   => 'apache',
-    mode    => '0740',
-    recurse => true,
-  }
+#  file { ['/etc/puppet/environments',
+#          '/etc/puppet/environments/production',
+#          '/etc/puppet/environments/production/modules',
+#          '/etc/puppet/environments/production/hieradata']:
+#    ensure  => directory,
+#    owner   => 'puppet',
+#    group   => 'apache',
+#    mode    => '0740',
+#    recurse => true,
+#  }
   file { 'master_hiera':
     ensure  => file,
     path    => "/etc/puppet/environments/production/hieradata/${certname}.yaml",
@@ -161,5 +162,19 @@ class puppetmaster(
         'Allow'         => 'from all',
       },
     ],
+  }
+  class { 'r10k':
+    version                => $r10k_version,
+    sources                => {
+      'puppet' => {
+        'remote'  => $control_repo,
+        'basedir' => "${::settings::confdir}/environments",
+        'prefix'  => false,
+      }
+    },
+    purgedirs              => ["${::settings::confdir}/environments"],
+    install_options        => '--debug',
+    manage_modulepath      => false,
+    manage_ruby_dependency => ignore,
   }
 }
