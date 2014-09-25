@@ -66,6 +66,13 @@ class puppetmaster(
     group   => 'puppet',
     mode    => '0740',
   }
+  file { '/etc/r10k.yaml':
+    ensure  => file,
+    content => template('puppetmaster/r10k.yaml.erb'),
+    owner   => 'puppet',
+    group   => 'puppet',
+    mode    => '0740',
+  }
   file { ['/etc/puppet/environments',
           '/etc/puppet/environments/production',
           '/etc/puppet/environments/production/modules',
