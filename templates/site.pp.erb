@@ -1,7 +1,6 @@
 Package { allow_virtual => false }
 
 node '<%= @master %>' {
-  $environment = 'production'
   class { 'puppetmaster::role::single': }
 }
 

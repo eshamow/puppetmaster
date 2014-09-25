@@ -66,17 +66,10 @@ class puppetmaster(
     group   => 'puppet',
     mode    => '0740',
   }
-  file { '/etc/r10k.yaml':
-    ensure  => file,
-    content => template('puppetmaster/r10k.yaml.erb'),
-    owner   => 'puppet',
-    group   => 'puppet',
-    mode    => '0740',
-  }
   file { ['/etc/puppet/environments',
-          '/etc/puppet/environments/production',
-          '/etc/puppet/environments/production/modules',
-          '/etc/puppet/environments/production/hieradata']:
+          '/etc/puppet/environments/puppet',
+          '/etc/puppet/environments/puppet/modules',
+          '/etc/puppet/environments/puppet/hieradata']:
     ensure  => directory,
     owner   => 'puppet',
     group   => 'apache',
@@ -85,7 +78,7 @@ class puppetmaster(
   }
   file { 'master_hiera':
     ensure  => file,
-    path    => "/etc/puppet/environments/production/hieradata/${certname}.yaml",
+    path    => "/etc/puppet/environments/puppet/hieradata/${certname}.yaml",
     content => template('puppetmaster/master.yaml.erb'),
     owner   => 'puppet',
     group   => 'apache',
