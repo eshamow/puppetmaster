@@ -15,3 +15,5 @@ tmtags
 tags
 
 pkg/*
+
+spec/fixtures/*
