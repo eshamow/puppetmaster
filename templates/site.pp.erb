@@ -4,7 +4,7 @@ node '<%= @master %>' {
   class { 'puppetmaster::role::single': }
 }
 
-<% if @hiera_erb -%>
+<% if @hiera_enc -%>
 node default {
   hiera_include('node::classes')
 }

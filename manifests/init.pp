@@ -1,25 +1,36 @@
 # == Class: puppetmaster
 #
-# Full description of class puppetmaster here.
+# Installs a standalone puppet master and r10k.
 #
 # === Parameters
 #
-# Document parameters here.
+# [*master*]
+#   DNS name for puppet master. Mandatory. Defaults to undef.
 #
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
-#   e.g. "Specify one or more upstream ntp servers as an array."
+# [*control_repo*]
+#   URL of control repository. Mandatory. Defaults to undef.
 #
-# === Variables
+# [*certname*]
+#   certname to be assigned to puppet master. Defaults to $master
 #
-# Here you should define a list of variables that this module would require.
+# [*dns_alt_names*]
+#   Comma-separated list of alternate DNS names for the puppet master cert.
+#   Defaults to $master
 #
-# [*sample_variable*]
-#   Explanation of how this variable affects the funtion of this class and if
-#   it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#   External Node Classifier as a comma separated list of hostnames." (Note,
-#   global variables should be avoided in favor of class parameters as
-#   of Puppet 2.6.)
+# [*manage_web_stack*]
+#   Install profile_passenger module, enabling Apache and Passenger configs.
+#   Defaults to true.
+#
+# [*manage_firewall*]
+#   Manage firewall ports using puppetlabs-firewall module. Defaults to true.
+#
+# [*hiera_enc*]
+#   Use a hiera_include based ENC. If set to false, another node terminus must
+#   be selected. Defaults to true.
+#
+# [*r10k_version*]
+#
+#   r10k version to be installed. Defaults to 'installed'.
 #
 # === Examples
 #
@@ -29,11 +40,11 @@
 #
 # === Authors
 #
-# Author Name <author@domain.com>
+# Eric Shamow <eric.shamow@gmail.com>
 #
 # === Copyright
 #
-# Copyright 2014 Your name here, unless otherwise noted.
+# Copyright 2014 Eric Shamow
 #
 class puppetmaster(
   $master           = undef,
@@ -42,7 +53,7 @@ class puppetmaster(
   $dns_alt_names    = $master,
   $manage_web_stack = true,
   $manage_firewall  = true,
-  $hiera_erb        = true,
+  $hiera_enc        = true,
   $r10k_version     = 'installed'
 ) {
   if ($master == undef) or ($control_repo == undef) {
