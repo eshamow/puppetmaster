@@ -1,7 +1,37 @@
 fixtures:
   repositories:
     stdlib:
-      repo: 'git://github.com/puppetlabs/puppetlabs-stdlib.git'
+      repo: 'https://github.com/puppetlabs/puppetlabs-stdlib.git'
       ref: '4.1.0'
+    apache:
+      repo: 'https://github.com/puppetlabs/puppetlabs-apache.git'
+      ref: '1.1.1'
+    concat:
+      repo: 'https://github.com/puppetlabs/puppetlabs-concat.git'
+      ref: '1.1.1'
+    gcc:
+      repo: 'https://github.com/puppetlabs/puppetlabs-gcc.git'
+      ref: '0.2.0'
+    git:
+      repo: 'https://github.com/puppetlabs/puppetlabs-git.git'
+      ref: '0.2.0'
+    inifile:
+      repo: 'https://github.com/puppetlabs/puppetlabs-inifile.git'
+      ref: '1.1.3'
+    profile_passenger:
+      repo: 'https://github.com/eshamow/eshamow-profile_passenger.git'
+      ref: '0.2.5'
+    passenger:
+      repo: 'https://github.com/eshamow/puppetlabs-passenger'
+      ref: '270bf462a9942f5c534684bef2767cedb98707a0'
+    ruby:
+      repo: 'https://github.com/puppetlabs/puppetlabs-ruby.git'
+      ref: 'd8131b0535c3bb8bc2e72dca5d0b0e6088a65374'
+    r10k:
+      repo: 'https://github.com/acidprime/r10k.git'
+      ref: 'v2.3.0'
+    vcsrepo:
+      repo: 'https://github.com/puppetlabs/puppetlabs-vcsrepo.git'
+      ref: '1.1.0'
   symlinks:
     puppetmaster: "#{source_dir}"
