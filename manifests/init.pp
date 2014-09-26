@@ -176,20 +176,6 @@ class puppetmaster(
       },
     ],
   }
-  class { 'r10k':
-    version                => $r10k_version,
-    sources                => {
-      'puppet' => {
-        'remote'  => $control_repo,
-        'basedir' => "${::settings::confdir}/environments",
-        'prefix'  => false,
-      }
-    },
-    purgedirs              => ["${::settings::confdir}/environments"],
-    install_options        => '--debug',
-    manage_modulepath      => false,
-    manage_ruby_dependency => ignore,
-  }
   vcsrepo { '/etc/puppet/control':
     ensure   => present,
     provider => git,
