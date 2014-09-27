@@ -1,6 +1,16 @@
 require 'spec_helper'
 describe 'puppetmaster' do
 
+  let :facts do
+    {
+      :operatingsystemrelease => '6.5',
+      :operatingsystemmajrelease => '6',
+      :osfamily => 'Redhat',
+      :architecture => 'x86_64',
+      :concat_basedir => '/dne'
+    }
+  end
+
   context 'with defaults for all parameters' do
     it 'should warn that two parameters need to be set' do
       expect {
@@ -14,15 +24,6 @@ describe 'puppetmaster' do
       {
         :master => 'localhost',
         :control_repo => 'https://github.com/testrepo/control.git'
-      }
-    end
-    let :facts do
-      {
-        :operatingsystemrelease => '6.5',
-        :operatingsystemmajrelease => '6',
-        :osfamily => 'Redhat',
-        :architecture => 'x86_64',
-        :concat_basedir => '/dne'
       }
     end
     it {
@@ -99,6 +100,26 @@ describe 'puppetmaster' do
         'setting' => 'default_manifest',
         'value' => '$confdir/manifests'
       })
+      should contain_apache__vhost('localhost').with( {
+        'ssl_cert' => '/var/lib/puppet/ssl/certs/localhost.pem',
+        'ssl_key' => '/var/lib/puppet/ssl/private_keys/localhost.pem'
+      })
+      should contain_vcsrepo('/etc/puppet/control').with('source' => 'https://github.com/testrepo/control.git')
+      should contain_class('profile_passenger')
     }
+  end
+  context 'when manage_web_stack is set to false' do
+    let :params do
+      {
+        :master => 'localhost',
+        :control_repo => 'https://github.com/testrepo/control.git',
+        :manage_web_stack => false
+      }
+    end
+    it 'should fail to compile' do
+      expect {
+        should compile
+      }.to raise_error(Puppet::Error, /Class currently only supports \$manage_web_stack = true/)
+    end
   end
 end

@@ -146,7 +146,10 @@ class puppetmaster(
   }
   if $manage_web_stack {
     contain profile_passenger
+  } else {
+    fail('Class currently only supports $manage_web_stack = true')
   }
+
   apache::vhost { $master:
     port                 => '8140',
     ssl                  => true,
