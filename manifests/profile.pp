@@ -2,6 +2,7 @@ class puppetmaster::profile(
   $master          = undef,
   $control_repo    = undef,
   $manage_firewall = true,
+  $r10k_version    = 'installed'
 ) {
   if ($master == undef) or ($control_repo == undef) {
     fail('$master and $control_repo must be defined for profile puppetmaster.')

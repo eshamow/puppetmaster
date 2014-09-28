@@ -28,10 +28,6 @@
 #   Use a hiera_include based ENC. If set to false, another node terminus must
 #   be selected. Defaults to true.
 #
-# [*r10k_version*]
-#
-#   r10k version to be installed. Defaults to 'installed'.
-#
 # === Examples
 #
 # When used via puppet apply to bootstrap installation:
@@ -56,7 +52,6 @@ class puppetmaster(
   $manage_web_stack = true,
   $manage_firewall  = true,
   $hiera_enc        = true,
-  $r10k_version     = 'installed'
 ) {
   if ($master == undef) or ($control_repo == undef) {
     fail('$master and $control_repo must be defined for class puppetmaster.')

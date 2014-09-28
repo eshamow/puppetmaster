@@ -33,6 +33,25 @@ describe 'puppetmaster::profile' do
         'master' => 'localhost',
         'control_repo' => 'https://github.com/testrepo/control.git'
       })
+      should contain_class('epel')
+      should contain_class('puppetdb').with({
+        'listen_address' => 'localhost',
+        'ssl_listen_address' => 'localhost'
+      })
+      should contain_class('puppetdb::master::config').with({
+        'puppet_service_name' => 'httpd',
+        'puppetdb_server' => 'localhost'
+      })
+      should contain_class('r10k').with({
+        'version' => 'installed',
+        'sources' => {
+          'puppet' => {
+            'remote' => 'https://github.com/testrepo/control.git',
+            'basedir' => '/etc/puppet/environments',
+            'prefix' => false
+          }
+        }
+      })
     }
   end
 end
