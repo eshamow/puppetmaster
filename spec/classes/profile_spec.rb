@@ -5,7 +5,7 @@ describe 'puppetmaster::profile' do
     {
       :operatingsystemrelease => '6.5',
       :operatingsystemmajrelease => '6',
-      :osfamily => 'Redhat',
+      :osfamily => 'RedHat',
       :operatingsystem => 'RedHat',
       :architecture => 'x86_64',
       :kernel => 'Linux',
