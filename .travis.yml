@@ -1,9 +1,7 @@
 language: ruby
 bundler_args: --without development
-before_script: 
-  - bundle exec rake validate_puppet_syntax
-  - bundle exec rake validate_ruby_syntax
-  - bundle exec rake check_line_endings
+before_script:
+  - bundle exec rake validate
   - bundle exec rake lint
 script:
   - bundle exec rake spec SPEC_OPTS='--format documentation'
