@@ -30,6 +30,8 @@
 #
 # === Examples
 #
+# See README.md for full instructions.
+#
 # When used via puppet apply to bootstrap installation:
 #
 # puppet apply --modulepath /etc/puppet/environments/puppet/modules --verbose -e 'class { "puppetmaster": master => "master", control_repo => "https://github.com/myuser/mycontrolrepo.git" }'
