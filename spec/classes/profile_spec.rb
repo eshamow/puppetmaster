@@ -52,6 +52,37 @@ describe 'puppetmaster::profile' do
           }
         }
       })
+      should contain_class('puppetmaster::firewall').with('before' => 'Service[iptables]')
+      should contain_class('puppetmaster::firewall::pre')
+      should contain_class('puppetmaster::firewall::post')
+      should contain_class('firewall')
+    }
+  end
+  context 'when $manage_firewall is set to false' do
+    let :params do
+      {
+        :master => 'localhost',
+        :control_repo => 'https://github.com/testrepo/control.git',
+        :manage_firewall => false
+      }
+    end
+    it {
+      should_not contain_class('puppetmaster::firewall')
+      should_not contain_class('puppetmaster::firewall::pre')
+      should_not contain_class('puppetmaster::firewall::post')
+      should_not contain_class('firewall')
+    }
+  end
+  context 'when custom r10k version is passed' do
+    let :params do
+      {
+        :master => 'localhost',
+        :control_repo => 'https://github.com/testrepo/control.git',
+        :r10k_version => '1.3.4'
+      }
+    end
+    it {
+      should contain_class('r10k').with({'version' => '1.3.4'})
     }
   end
 end
