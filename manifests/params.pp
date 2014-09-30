@@ -6,8 +6,14 @@ class puppetmaster::params {
   $puppet_lib_root = '/var/lib/puppet'
 
   case $::osfamily {
-    'redhat': { $web_group = 'apache' }
-    'debian': { $web_group = 'www-data' }
+    'redhat': {
+      $web_group = 'apache'
+      $firewall_service = Service['iptables']
+    }
+    'debian': {
+      $web_group = 'www-data'
+      $firewall_service = undef
+    }
     default:  { fail("osfamily ${::osfamily} is unsupported by class puppetmaster.") }
   }
 }

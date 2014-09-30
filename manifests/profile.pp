@@ -1,9 +1,10 @@
 class puppetmaster::profile(
-  $master          = undef,
-  $control_repo    = undef,
-  $manage_firewall = true,
-  $r10k_version    = 'installed'
-) {
+  $master           = undef,
+  $control_repo     = undef,
+  $manage_firewall  = true,
+  $firewall_service = $puppetmaster::params::firewall_service,
+  $r10k_version     = 'installed'
+) inherits puppetmaster::params {
   if ($master == undef) or ($control_repo == undef) {
     fail('$master and $control_repo must be defined for profile puppetmaster.')
   }
@@ -17,7 +18,7 @@ class puppetmaster::profile(
     }
     class { ['puppetmaster::firewall::pre', 'puppetmaster::firewall::post']: }
     class { 'puppetmaster::firewall':
-      before => Service['iptables'],
+      before => $firewall_service
     }
     class { '::firewall': }
   }

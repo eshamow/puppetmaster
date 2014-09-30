@@ -52,12 +52,35 @@ describe 'puppetmaster::profile' do
           }
         }
       })
-      should contain_class('puppetmaster::firewall').with('before' => 'Service[iptables]')
       should contain_class('puppetmaster::firewall::pre')
       should contain_class('puppetmaster::firewall::post')
       should contain_class('firewall')
+      should contain_class('puppetmaster::firewall').with('before' => 'Service[iptables]')
     }
   end
+  context 'on debian-based systems' do
+    let :facts do
+      {
+        :operatingsystemrelease => '7.6',
+        :operatingsystemmajrelease => '7',
+        :osfamily => 'Debian',
+        :operatingsystem => 'Debian',
+        :architecture => 'x86_64',
+        :kernel => 'Linux',
+        :concat_basedir => '/dne'
+      }
+    end
+    let :params do
+      {
+        :master => 'localhost',
+        :control_repo => 'https://github.com/testrepo/control.git'
+      }
+    end
+    it {
+      should contain_class('puppetmaster::firewall').without('before' => 'Service[iptables]')
+    }
+  end
+
   context 'when $manage_firewall is set to false' do
     let :params do
       {
