@@ -38,7 +38,7 @@ fixtures:
       ref: '4.0.0'
     ruby:
       repo: 'https://github.com/puppetlabs/puppetlabs-ruby.git'
-      ref: 'd8131b0535c3bb8bc2e72dca5d0b0e6088a65374'
+      ref: '734a33bb7f7670136e77179aafeeebb81d8d14d3'
     r10k:
       repo: 'https://github.com/acidprime/r10k.git'
       ref: 'v2.3.0'

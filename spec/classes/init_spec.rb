@@ -23,7 +23,13 @@ describe 'puppetmaster' do
     let :params do
       {
         :master => 'localhost',
-        :control_repo => 'https://github.com/testrepo/control.git'
+        :control_repo => 'https://github.com/testrepo/control.git',
+        :user => 'puppet',
+        :group => 'puppet',
+        :web_group => 'apache',
+        :puppet_root => '/etc/puppet',
+        :puppet_lib_root => '/var/lib/puppet',
+        :puppet_usr_root => '/usr/share/puppet'
       }
     end
     it {
@@ -113,6 +119,12 @@ describe 'puppetmaster' do
       {
         :master => 'localhost',
         :control_repo => 'https://github.com/testrepo/control.git',
+        :user => 'puppet',
+        :group => 'puppet',
+        :web_group => 'apache',
+        :puppet_root => '/etc/puppet',
+        :puppet_lib_root => '/var/lib/puppet',
+        :puppet_usr_root => '/usr/share/puppet',
         :manage_web_stack => false
       }
     end
