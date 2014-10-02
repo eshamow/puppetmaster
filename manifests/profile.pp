@@ -4,7 +4,7 @@ class puppetmaster::profile(
   $manage_firewall  = true,
   $firewall_service = $puppetmaster::params::firewall_service,
   $r10k_version     = 'installed'
-) inherits puppetmaster::params {
+) inherits puppetmaster {
   if ($master == undef) or ($control_repo == undef) {
     fail('$master and $control_repo must be defined for profile puppetmaster.')
   }
