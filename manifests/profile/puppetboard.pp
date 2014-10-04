@@ -9,7 +9,7 @@ class puppetmaster::profile::puppetboard (
     manage_virtualenv => false,
   }
   class { 'puppetboard::apache::vhost':
-    vhost_name => $master,
+    vhost_name => "${master}_puppetboard",
     port => 80,
   }
 }
