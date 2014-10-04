@@ -9,10 +9,12 @@ class puppetmaster::params {
     'redhat': {
       $web_group = 'apache'
       $firewall_service = Service['iptables']
+      $puppetboard_basedir = '/var/www/html'
     }
     'debian': {
       $web_group = 'www-data'
       $firewall_service = undef
+      $puppetboard_basedir = '/var/www/html'
     }
     default:  { fail("osfamily ${::osfamily} is unsupported by class puppetmaster.") }
   }
