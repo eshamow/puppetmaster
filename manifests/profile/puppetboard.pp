@@ -4,7 +4,7 @@ class puppetmaster::profile::puppetboard (
   class { 'apache::mod::wsgi': }
   class { '::puppetboard': }
   class { 'puppetboard::apache::vhost':
-    name => $master,
+    vhost_name => $master,
     port => 80,
   }
 }
