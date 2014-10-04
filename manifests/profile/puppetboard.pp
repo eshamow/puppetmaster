@@ -4,6 +4,7 @@ class puppetmaster::profile::puppetboard (
   class { 'apache::mod::wsgi': }
   class { 'python':
     virtualenv => true,
+    dev        => true,
   } ->
   class { '::puppetboard':
     manage_virtualenv => false,
