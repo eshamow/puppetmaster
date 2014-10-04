@@ -3,9 +3,7 @@ class puppetmaster::profile::puppetboard (
 ) inherits puppetmaster::params {
   class { 'apache::mod::wsgi': }
   class { 'python': } ->
-  class { '::puppetboard':
-    manage_virtualenv => true,
-  }
+  class { '::puppetboard': }
   class { 'puppetboard::apache::vhost':
     vhost_name => $master,
     port => 80,
