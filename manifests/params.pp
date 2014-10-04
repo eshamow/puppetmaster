@@ -9,7 +9,7 @@ class puppetmaster::params {
     'redhat': {
       $web_group = 'apache'
       $firewall_service = Service['iptables']
-      $puppetboard_basedir = '/var/www/html'
+      $puppetboard_basedir = '/var/www/html/puppetboard'
     }
     'debian': {
       $web_group = 'www-data'
