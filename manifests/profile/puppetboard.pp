@@ -10,9 +10,5 @@ class puppetmaster::profile::puppetboard (
   class { '::puppetboard':
     manage_virtualenv => false,
   }
-  class { 'puppetboard::apache::vhost':
-    vhost_name => "${master}_puppetboard",
-    port => 80,
-    basedir => $basedir,
-  }
+  class { 'puppetboard::apache::conf': }
 }
