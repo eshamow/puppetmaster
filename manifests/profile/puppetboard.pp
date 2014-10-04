@@ -1,5 +1,5 @@
 class puppetmaster::profile::puppetboard (
-  $master = puppetmaster::master
+  $master = $puppetmaster::master
 ) inherits puppetmaster::params {
   class { 'apache::mod::wsgi': }
   class { 'python':
