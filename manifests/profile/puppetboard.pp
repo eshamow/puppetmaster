@@ -11,9 +11,9 @@ class puppetmaster::profile::puppetboard (
     manage_virtualenv => false,
     puppetdb_host => 'localhost',
     puppetdb_port => '8081',
-    puppetdb_key  => "/var/lib/puppet/ssl/private_keys/${::certname}.pem",
-    puppetdb_ssl  => "'/var/lib/puppet/ssl/certs/ca.pem'",
-    puppetdb_cert => "/var/lib/puppet/ssl/certs/${::certname}.pem",
+    puppetdb_key  => '/etc/puppetdb/ssl/private.pem'
+    puppetdb_ssl  => '/etc/puppetdb/ssl/ca.pem'
+    puppetdb_cert => '/etc/puppetdb/ssl/public.pem',
   }
   class { 'puppetboard::apache::conf': }
 }
