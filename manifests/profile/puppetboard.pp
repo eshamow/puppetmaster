@@ -8,12 +8,12 @@ class puppetmaster::profile::puppetboard (
     dev        => true,
   } ->
   class { '::puppetboard':
-    manage_virtualenv => false,
-    puppetdb_host => $master,
-    puppetdb_port => '8081',
-    puppetdb_key  => '/etc/puppetdb/ssl/private.pem',
-    puppetdb_ssl  => '/etc/puppetdb/ssl/ca.pem',
-    puppetdb_cert => '/etc/puppetdb/ssl/public.pem',
+    manage_virtualenv   => false,
+    puppetdb_host       => $master,
+    puppetdb_port       => '8081',
+    puppetdb_key        => "/var/lib/puppet/ssl/private_keys/${master}.pem",
+    puppetdb_ssl_verify => '/var/lib/puppet/ssl/certs/ca.pem',
+    puppetdb_cert       => "/var/lib/puppet/ssl/certs/${master}.pem",
   }
   class { 'puppetboard::apache::conf': }
 }
