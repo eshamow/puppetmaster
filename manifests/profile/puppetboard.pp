@@ -9,7 +9,7 @@ class puppetmaster::profile::puppetboard (
   } ->
   class { '::puppetboard':
     manage_virtualenv => false,
-    puppetdb_host => 'localhost',
+    puppetdb_host => $master,
     puppetdb_port => '8081',
     puppetdb_key  => '/etc/puppetdb/ssl/private.pem',
     puppetdb_ssl  => 'False',
