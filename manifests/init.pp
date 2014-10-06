@@ -147,6 +147,11 @@ class puppetmaster(
     setting => 'default_manifest',
     value   => '$confdir/manifests',
   }
+  ini_setting { 'puppetdb_reports':
+    setting => 'reports',
+    value   => 'puppetdb',
+    section => 'master'
+  }
   if $manage_web_stack {
     contain profile_passenger
   } else {

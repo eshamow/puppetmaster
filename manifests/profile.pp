@@ -3,7 +3,6 @@ class puppetmaster::profile(
   $control_repo            = undef,
   $manage_firewall         = true,
   $firewall_service        = $puppetmaster::params::firewall_service,
-  $manage_report_processor = 'true',
   $r10k_version            = 'installed'
 ) inherits puppetmaster::params {
   if ($master == undef) or ($control_repo == undef) {
@@ -35,7 +34,6 @@ class puppetmaster::profile(
   class { 'puppetdb::master::config':
     puppet_service_name     => 'httpd',
     puppetdb_server         => $master,
-    manage_report_processor => $manage_report_processor,
   }
   class { 'r10k':
     version                => $r10k_version,
