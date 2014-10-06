@@ -29,13 +29,13 @@ class puppetmaster::profile(
   }
   class { 'epel': }
   class { 'puppetdb':
-    listen_address          => $master,
-    ssl_listen_address      => $master,
-    manage_report_processor => $manage_report_processor,
+    listen_address     => $master,
+    ssl_listen_address => $master,
   }
   class { 'puppetdb::master::config':
-    puppet_service_name => 'httpd',
-    puppetdb_server     => $master,
+    puppet_service_name     => 'httpd',
+    puppetdb_server         => $master,
+    manage_report_processor => $manage_report_processor,
   }
   class { 'r10k':
     version                => $r10k_version,
