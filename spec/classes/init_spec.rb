@@ -106,6 +106,11 @@ describe 'puppetmaster' do
         'setting' => 'default_manifest',
         'value' => '$confdir/manifests'
       })
+      should contain_ini_setting('master_reports').with( {
+        'section' => 'master',
+        'setting' => 'reports',
+        'value' => 'puppetdb'
+      })
       should contain_apache__vhost('localhost').with( {
         'ssl_cert' => '/var/lib/puppet/ssl/certs/localhost.pem',
         'ssl_key' => '/var/lib/puppet/ssl/private_keys/localhost.pem'

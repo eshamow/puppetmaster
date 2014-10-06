@@ -6,6 +6,7 @@ class puppetmaster::profile::puppetboard (
 ) inherits puppetmaster::params {
   class { 'apache::mod::wsgi': }
   class { 'python':
+    version    => 'system',
     virtualenv => true,
     dev        => true,
   } ->
