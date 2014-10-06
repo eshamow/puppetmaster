@@ -1,9 +1,10 @@
 class puppetmaster::profile(
-  $master           = undef,
-  $control_repo     = undef,
-  $manage_firewall  = true,
-  $firewall_service = $puppetmaster::params::firewall_service,
-  $r10k_version     = 'installed'
+  $master                  = undef,
+  $control_repo            = undef,
+  $manage_firewall         = true,
+  $firewall_service        = $puppetmaster::params::firewall_service,
+  $manage_report_processor = 'true',
+  $r10k_version            = 'installed'
 ) inherits puppetmaster::params {
   if ($master == undef) or ($control_repo == undef) {
     fail('$master and $control_repo must be defined for profile puppetmaster.')
@@ -28,8 +29,9 @@ class puppetmaster::profile(
   }
   class { 'epel': }
   class { 'puppetdb':
-    listen_address     => $master,
-    ssl_listen_address => $master,
+    listen_address          => $master,
+    ssl_listen_address      => $master,
+    manage_report_processor => $manage_report_processor,
   }
   class { 'puppetdb::master::config':
     puppet_service_name => 'httpd',

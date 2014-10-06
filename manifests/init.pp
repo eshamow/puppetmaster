@@ -59,7 +59,7 @@ class puppetmaster(
   $web_group        = $puppetmaster::params::web_group,
   $puppet_root      = $puppetmaster::params::puppet_root,
   $puppet_lib_root  = $puppetmaster::params::puppet_lib_root,
-  $puppet_usr_root  = $puppetmaster::params::puppet_usr_root
+  $puppet_usr_root  = $puppetmaster::params::puppet_usr_root,
 ) inherits puppetmaster::params {
   if ($master == undef) or ($control_repo == undef) {
     fail('$master and $control_repo must be defined for class puppetmaster.')
