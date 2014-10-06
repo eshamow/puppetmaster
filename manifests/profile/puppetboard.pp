@@ -1,6 +1,7 @@
 class puppetmaster::profile::puppetboard (
-  $master = $puppetmaster::master,
-  $basedir = $puppetmaster::params::puppetboard_basedir
+  $master  = $puppetmaster::master,
+  $basedir = $puppetmaster::params::puppetboard_basedir,
+  $group   = $puppetmaster::group,
 ) inherits puppetmaster::params {
   class { 'apache::mod::wsgi': }
   class { 'python':
@@ -9,6 +10,7 @@ class puppetmaster::profile::puppetboard (
   } ->
   class { '::puppetboard':
     manage_virtualenv   => false,
+    group               => $group,
     puppetdb_host       => $master,
     puppetdb_port       => '8081',
     puppetdb_key        => "/var/lib/puppet/ssl/private_keys/${master}.pem",
