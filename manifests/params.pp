@@ -4,6 +4,7 @@ class puppetmaster::params {
   $puppet_root = '/etc/puppet'
   $puppet_usr_root = '/usr/share/puppet'
   $puppet_lib_root = '/var/lib/puppet'
+  $master_reports = 'puppetdb'
 
   case $::osfamily {
     'redhat': {

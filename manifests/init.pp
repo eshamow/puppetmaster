@@ -28,6 +28,10 @@
 #   Use a hiera_include based ENC. If set to false, another node terminus must
 #   be selected. Defaults to true.
 #
+# [*master_reports*]
+#   Settings for reports field in master section of puppet.conf. Defaults to
+#   puppetdb. If more than one value is passed, should be comma-separated list.
+#
 # === Examples
 #
 # See README.md for full instructions.
@@ -57,6 +61,7 @@ class puppetmaster(
   $user             = $puppetmaster::params::user,
   $group            = $puppetmaster::params::group,
   $web_group        = $puppetmaster::params::web_group,
+  $master_reports   = $puppetmaster::params::master_reports,
   $puppet_root      = $puppetmaster::params::puppet_root,
   $puppet_lib_root  = $puppetmaster::params::puppet_lib_root,
   $puppet_usr_root  = $puppetmaster::params::puppet_usr_root,
@@ -147,9 +152,9 @@ class puppetmaster(
     setting => 'default_manifest',
     value   => '$confdir/manifests',
   }
-  ini_setting { 'puppetdb_reports':
+  ini_setting { 'master_reports':
     setting => 'reports',
-    value   => 'puppetdb',
+    value   => $master_reports,
     section => 'master'
   }
   if $manage_web_stack {
