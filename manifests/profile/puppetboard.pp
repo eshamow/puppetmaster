@@ -7,6 +7,7 @@ class puppetmaster::profile::puppetboard (
   class { 'apache::mod::wsgi': }
   class { 'python':
     version    => 'system',
+    pip        => 'system',
     virtualenv => true,
     dev        => true,
   } ->
