@@ -17,3 +17,5 @@ tags
 pkg/*
 
 spec/fixtures/*
+doc/*
+.yardoc/*
