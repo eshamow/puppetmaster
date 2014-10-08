@@ -1,8 +1,9 @@
 class puppetmaster::profile::puppetboard (
-  $master    = $puppetmaster::master,
-  $basedir   = $puppetmaster::params::puppetboard_basedir,
-  $group     = $puppetmaster::group,
-  $web_group = $puppetmaster::web_group
+  $manage_firewall = true,
+  $master          = $puppetmaster::master,
+  $basedir         = $puppetmaster::params::puppetboard_basedir,
+  $group           = $puppetmaster::group,
+  $web_group       = $puppetmaster::web_group
 ) inherits puppetmaster::params {
   class { 'apache::mod::wsgi': }
   class { 'python':
@@ -21,4 +22,8 @@ class puppetmaster::profile::puppetboard (
     puppetdb_cert       => "/var/lib/puppet/ssl/certs/${master}.pem",
   }
   class { 'puppetboard::apache::conf': }
+  class { 'puppetmaster::firewall::puppetboard':
+    before  => Class['puppetmaster::firewall::post'],
+    require => Class['puppetmaster::firewall::pre'],
+  }
 }
