@@ -5,6 +5,10 @@ class puppetmaster::params {
   $puppet_usr_root = '/usr/share/puppet'
   $puppet_lib_root = '/var/lib/puppet'
   $master_reports = 'puppetdb'
+  $manage_web_stack = true
+  $manage_firewall = true
+  $hiera_enc = true
+  $strict_variables = true
 
   case $::osfamily {
     'redhat': {

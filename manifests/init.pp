@@ -55,9 +55,10 @@ class puppetmaster(
   $control_repo     = undef,
   $certname         = $master,
   $dns_alt_names    = $master,
-  $manage_web_stack = true,
-  $manage_firewall  = true,
-  $hiera_enc        = true,
+  $manage_web_stack = $puppetmaster::params::manage_web_stack,
+  $manage_firewall  = $puppetmaster::params::manage_firewall,
+  $strict_variables = $puppetmaster::params::strict_variables,
+  $hiera_enc        = $puppetmaster::params::hiera_enc,
   $user             = $puppetmaster::params::user,
   $group            = $puppetmaster::params::group,
   $web_group        = $puppetmaster::params::web_group,
@@ -151,6 +152,10 @@ class puppetmaster(
   ini_setting { 'directory_environment_manifests':
     setting => 'default_manifest',
     value   => '$confdir/manifests',
+  }
+  ini_setting { 'strict_variable_checking':
+    setting => 'strict_variables',
+    value   => $strict_variables,
   }
   ini_setting { 'master_reports':
     setting => 'reports',

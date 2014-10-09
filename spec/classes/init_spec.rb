@@ -106,6 +106,11 @@ describe 'puppetmaster' do
         'setting' => 'default_manifest',
         'value' => '$confdir/manifests'
       })
+      should contain_ini_setting('strict_variable_checking').with( {
+        'section' => 'main',
+        'setting' => 'strict_variables',
+        'value'   => true
+      })
       should contain_ini_setting('master_reports').with( {
         'section' => 'master',
         'setting' => 'reports',
