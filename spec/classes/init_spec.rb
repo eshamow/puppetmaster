@@ -14,12 +14,12 @@ describe 'puppetmaster' do
   context 'with defaults for all parameters' do
     it 'should warn that two parameters need to be set' do
       expect {
-        should compile
+        is_expected.to compile
       }.to raise_error(Puppet::Error, /\$master and \$control_repo must be defined for class puppetmaster./)
     end
   end
 
-  context 'when passed minimimum default values' do
+  context 'when called' do
     let :params do
       {
         :master => 'localhost',
@@ -33,96 +33,118 @@ describe 'puppetmaster' do
       }
     end
     it {
-      should contain_user('puppet').with({'ensure' => 'present', 'groups' => '["apache", "puppet"]'})
-      should contain_file('/etc/puppet/manifests/site.pp').with('owner' => 'puppet')
-      should contain_file('/etc/puppet/manifests/site.pp').with_content(/^Package { allow_virtual/)
-      should contain_file('/etc/puppet/hiera.yaml').with('owner' => 'puppet')
-      should contain_file('/etc/puppet/hiera.yaml').with_content(/backends:/)
-      should contain_file('master_hiera').with( {
+      is_expected.to contain_user('puppet').with({'ensure' => 'present', 'groups' => '["apache", "puppet"]'})
+      is_expected.to contain_file('/etc/puppet/manifests/site.pp').with('owner' => 'puppet')
+      is_expected.to contain_file('/etc/puppet/manifests/site.pp').with_content(/^Package { allow_virtual/)
+      is_expected.to contain_file('/etc/puppet/hiera.yaml').with('owner' => 'puppet')
+      is_expected.to contain_file('/etc/puppet/hiera.yaml').with_content(/backends:/)
+      is_expected.to contain_file('master_hiera').with( {
         'path' => '/etc/puppet/environments/puppet/hieradata/localhost.yaml',
         'owner' => 'puppet',
       })
-      should contain_file('master_hiera').with_content(/puppetmaster::profile::master: localhost/)
-      should contain_file('/usr/share/puppet/rack/puppetmasterd/config.ru').with('owner' => 'puppet')
-      should contain_file('/etc/puppet/environments').with( {
+      is_expected.to contain_file('master_hiera').with_content(/puppetmaster::profile::master: localhost/)
+      is_expected.to contain_file('/usr/share/puppet/rack/puppetmasterd/config.ru').with('owner' => 'puppet')
+      is_expected.to contain_file('/etc/puppet/environments').with( {
         'ensure' => 'directory',
         'recurse' => 'true'
       })
-      should contain_file('/etc/puppet/environments/puppet').with( {
+      is_expected.to contain_file('/etc/puppet/environments/puppet').with( {
         'ensure' => 'directory',
         'recurse' => 'true'
       })
-      should contain_file('/etc/puppet/environments/puppet/modules').with( {
+      is_expected.to contain_file('/etc/puppet/environments/puppet/modules').with( {
         'ensure' => 'directory',
         'recurse' => 'true'
       })
-      should contain_file('/etc/puppet/environments/puppet/hieradata').with( {
+      is_expected.to contain_file('/etc/puppet/environments/puppet/hieradata').with( {
         'ensure' => 'directory',
         'recurse' => 'true'
       })
-      should contain_file('/usr/share/puppet/rack').with( {
+      is_expected.to contain_file('/usr/share/puppet/rack').with( {
         'ensure' => 'directory',
         'recurse' => 'true'
       })
-      should contain_file('/usr/share/puppet/rack/puppetmasterd').with( {
+      is_expected.to contain_file('/usr/share/puppet/rack/puppetmasterd').with( {
         'ensure' => 'directory',
         'recurse' => 'true'
       })
-      should contain_file('/usr/share/puppet/rack/puppetmasterd/public').with( {
+      is_expected.to contain_file('/usr/share/puppet/rack/puppetmasterd/public').with( {
         'ensure' => 'directory',
         'recurse' => 'true'
       })
-      should contain_file('/usr/share/puppet/rack/puppetmasterd/tmp').with( {
+      is_expected.to contain_file('/usr/share/puppet/rack/puppetmasterd/tmp').with( {
         'ensure' => 'directory',
         'recurse' => 'true'
       })
-      should contain_ini_setting('puppetmaster').with( {
+      is_expected.to contain_ini_setting('puppetmaster').with( {
         'section' => 'main',
         'setting' => 'server',
         'value' => 'localhost'
       })
-      should contain_ini_setting('certname').with( {
+      is_expected.to contain_ini_setting('certname').with( {
         'section' => 'main',
         'setting' => 'certname',
         'value' => 'localhost'
       })
-      should contain_ini_setting('dns_alt_names').with( {
+      is_expected.to contain_ini_setting('dns_alt_names').with( {
         'section' => 'main',
         'setting' => 'dns_alt_names',
         'value' => 'localhost'
       })
-      should contain_ini_setting('confdir').with( {
+      is_expected.to contain_ini_setting('confdir').with( {
         'section' => 'main',
         'setting' => 'confdir',
         'value' => '/etc/puppet'
       })
-      should contain_ini_setting('directory_environment_path').with( {
+      is_expected.to contain_ini_setting('directory_environment_path').with( {
         'section' => 'main',
         'setting' => 'environmentpath',
         'value' => '$confdir/environments'
       })
-      should contain_ini_setting('directory_environment_manifests').with( {
+      is_expected.to contain_ini_setting('directory_environment_manifests').with( {
         'section' => 'main',
         'setting' => 'default_manifest',
         'value' => '$confdir/manifests'
       })
-      should contain_ini_setting('strict_variable_checking').with( {
+      is_expected.to contain_ini_setting('strict_variable_checking').with( {
         'section' => 'main',
         'setting' => 'strict_variables',
         'value'   => true
       })
-      should contain_ini_setting('master_reports').with( {
+      is_expected.to contain_ini_setting('master_reports').with( {
         'section' => 'master',
         'setting' => 'reports',
         'value' => 'puppetdb'
       })
-      should contain_apache__vhost('localhost').with( {
+      is_expected.to contain_apache__vhost('localhost').with( {
         'ssl_cert' => '/var/lib/puppet/ssl/certs/localhost.pem',
         'ssl_key' => '/var/lib/puppet/ssl/private_keys/localhost.pem'
       })
-      should contain_vcsrepo('/etc/puppet/control').with('source' => 'https://github.com/testrepo/control.git')
-      should contain_class('profile_passenger')
+      is_expected.to contain_vcsrepo('/etc/puppet/control').with('source' => 'https://github.com/testrepo/control.git')
+      is_expected.to contain_class('profile_passenger')
     }
+    describe 'with alternate certname' do
+      let :params do
+        super().merge({
+          :certname => 'foo.bar.org'
+        })
+      end
+      it 'should use separate values for master and certname' do
+        is_expected.to contain_ini_setting('puppetmaster').with('value' => 'localhost')
+        is_expected.to contain_ini_setting('certname').with('value' => 'foo.bar.org')
+      end
+    end
+    describe 'with alternate dns_alt_names' do
+      let :params do
+        super().merge({
+          :dns_alt_names => 'foo.bar.org,puppet'
+        })
+      end
+      it 'should use separate values for master and certname' do
+        is_expected.to contain_ini_setting('puppetmaster').with('value' => 'localhost')
+        is_expected.to contain_ini_setting('dns_alt_names').with('value' => 'foo.bar.org,puppet')
+      end
+    end
   end
   context 'when manage_web_stack is set to false' do
     let :params do
@@ -140,7 +162,7 @@ describe 'puppetmaster' do
     end
     it 'should fail to compile' do
       expect {
-        should compile
+        is_expected.to compile
       }.to raise_error(Puppet::Error, /Class currently only supports \$manage_web_stack = true/)
     end
   end
