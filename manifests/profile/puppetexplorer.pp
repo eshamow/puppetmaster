@@ -1,4 +1,4 @@
-class puppetmaster::profile::explorer (
+class puppetmaster::profile::puppetexplorer (
   $manage_firewall = true,
 ) inherits puppetmaster::params {
   class { '::puppetexplorer': }
