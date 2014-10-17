@@ -81,6 +81,9 @@ class puppetmaster(
     group   => $group,
     mode    => '0740',
   }
+  file { '/etc/hiera.yaml':
+    ensure => absent,
+  }
   file { "${puppet_root}/hiera.yaml":
     ensure  => file,
     content => template('puppetmaster/hiera.yaml.erb'),
@@ -168,7 +171,7 @@ class puppetmaster(
     fail('Class currently only supports $manage_web_stack = true')
   }
 
-  apache::vhost { $master:
+  apache::vhost { "${master}-puppetmaster":
     port                 => '8140',
     ssl                  => true,
     ssl_protocol         => 'ALL -SSLv2 -SSLv3',
