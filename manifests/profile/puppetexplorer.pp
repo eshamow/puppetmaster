@@ -3,7 +3,7 @@ class puppetmaster::profile::puppetexplorer (
   $manage_firewall = true
 ) inherits puppetmaster::params {
   class { '::puppetexplorer':
-    servername => $master
+    servername => $master,
     proxy_pass => [{ 'path' => '/api/v4','url' => "http://${master}:8080/v4" }]
   }
   class { 'puppetmaster::firewall::puppetexplorer':
