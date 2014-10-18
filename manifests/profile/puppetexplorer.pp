@@ -1,6 +1,6 @@
 class puppetmaster::profile::puppetexplorer (
-  $master          = $puppetmaster::master
-  $manage_firewall = true,
+  $master          = $puppetmaster::master,
+  $manage_firewall = true
 ) inherits puppetmaster::params {
   class { '::puppetexplorer':
     servername => $master
