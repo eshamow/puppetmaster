@@ -11,6 +11,7 @@ class puppetmaster::profile::puppetboard (
     pip        => true,
     virtualenv => true,
     dev        => true,
+    provider   => 'pip',
   } ->
   class { '::puppetboard':
     manage_virtualenv   => false,
