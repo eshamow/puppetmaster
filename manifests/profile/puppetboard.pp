@@ -11,6 +11,7 @@ class puppetmaster::profile::puppetboard (
     pip        => true,
     virtualenv => true,
     dev        => true,
+    require    => Class['epel'],
   } ->
   class { '::puppetboard':
     manage_virtualenv   => false,
