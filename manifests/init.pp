@@ -155,7 +155,7 @@ class puppetmaster(
   }
   ini_setting { 'directory_environment_manifests':
     setting => 'default_manifest',
-    value   => '$confdir/manifests',
+    value   => '$environmentpath/manifests',
     section => 'master',
   }
   ini_setting { 'strict_variable_checking':
