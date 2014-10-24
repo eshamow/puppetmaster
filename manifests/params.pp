@@ -8,7 +8,7 @@ class puppetmaster::params {
   $manage_web_stack = true
   $manage_firewall = true
   $hiera_enc = true
-  $strict_variables = true
+  $strict_variables = false
 
   case $::osfamily {
     'redhat': {
