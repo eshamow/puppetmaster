@@ -109,7 +109,7 @@ describe 'puppetmaster' do
       is_expected.to contain_ini_setting('strict_variable_checking').with( {
         'section' => 'main',
         'setting' => 'strict_variables',
-        'value'   => true
+        'value'   => false
       })
       is_expected.to contain_ini_setting('master_reports').with( {
         'section' => 'master',
